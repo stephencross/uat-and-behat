@@ -24,8 +24,331 @@
 	<body>
 		<div class="reveal">
 			<div class="slides">
-				<section>User Acceptance Testing and Behat</section>
-				<section>Stehen Cross</section>
+				<section>
+					<h1>UAT &#8594; Behat</h1>
+					<h3>From User Acceptance Testing to Automated Testing</h3>
+					<p>
+						<small>Presented by <a href="http://www.StephenCross.com">Stephen Cross</a></small>
+					</p>
+					<aside class="notes">
+						<ul>
+							<li></li>
+						</ul>
+					</aside>
+				</section>
+				<section>
+					<h2>Stephen Cross</h2>
+					<p><a href="https://www.talkingdrupa.com">www.TalkingDrupal.com</a></p>
+					<p><a href="https://www.nedcamp.com">www.NEDCamp.com</a></p>
+					<p><a href="http://www.stephencross.com/resources">SLIDES: www.stephencross.com/resources</a></p>
+				</section>
+				<section>
+					<h2>New England Drupal Camp</h2>
+					<img src="img/nedcamp_logo.png">
+					<p>Novemember 16 -17, Providence RI</p>
+					<p><a href="https://www.nedcamp.com">www.NEDCamp.com</a></p>
+					<aside class="notes">
+						<ul>
+							<li>5th Year</li>
+							<li>Focus: DevOps</li>
+							<li>Training</li>
+							<li>Jeff Geerling</li>
+							<li>Matt Westgate - Tugboat</li>
+						</ul>
+					</aside>
+				</section>
+				<section>
+					<h2>Modern Workflows</h2>
+					<p>Local Dev - Front Build - CI - Deployment - Testing</p>
+				</section>
+				<section>
+					<p>Eating Healthy</p>
+					<p>Daily Journaling</p>
+					<p>Church - Weekly Attendance</p>
+					<p>Automated Testing</p>
+					<aside class="notes">
+						Things are good for us, hard to start and stick with, new year resolution<br>$sac need better transition to start
+					</aside>
+				</section>
+				<section>
+					<p>
+						<q cite="https://www.fatdag.com/?page_id=256">Set Attendance Goals, Not Performance Goals.</q>
+						<p>FATDAG (aka Mike Daggett)</p>
+					<aside class="notes">
+						<ul>
+							<li>Lost 60</li>
+							<li>Not happen over noght - takes a long time</li>
+							<li>chaning habbits</li>
+							<li>Set attendence goals</li>
+							<li>Exmple - 3 miles at day vs walking every day</li>
+						</ul>
+
+					</aside>
+				</section>
+				<section>
+					<em>Effective automated testing begins with<br>effective User Acceptance Testing.</em>
+				</section>
+				<section>
+					<h2>What is UAT?</h2>
+					<aside class="notes">
+						<ul>
+							<li>User acceptance testing (UAT) is the last phase of the software testing process. During UAT, actual software users test the software to make sure it can handle required tasks in real-world scenarios</li>
+							<li>Design and Documnet Test Scenarios</li>
+							<li>Select Testing Team</li>
+							<li>Execute testing scenarios</li>
+							<li>Documnet issues</li>
+							<li>Fix issues - repeat</li>
+						</ul>
+					</aside>
+				</section>
+				<section>
+					<h2>Keep it simple</h2>
+					<p>focus on attendance</p>
+				</section>
+				<section>
+					<h2>Inside ATF</h2>
+					<p>Newsletter for current and past agents.</p>
+					<img src="">
+				</section>
+				<section>
+					<h2>Implementation</h2>
+					<ul>
+						<li>Private Documenet (Media)</li>
+						<li>Categorize Inside ATF</li>
+						<li>Newsletter Listing Page</li>
+						<li>Protected Pages module</li>
+						<li>Hook viewing media to verify access</li>
+					</ul>
+				</section>
+				<section>
+					<h2>UAT for Inside ATF</h2>
+					<h3>Content Administrator</h3>
+						<ul>
+							<li>Upload PDF</li>
+							<li>Mark it Private</li>
+							<li>Set category a Inside ATF</li>
+							<li>Publish</li>
+						</ul>
+				</section>
+				<section>
+					<h2>Script</h2>
+					<pre><code class="nohighlight" data-trim contenteditable>
+Add a new document and secure it
+
+() Login as content administrator
+() Goto admin/content/file
+() Upload PDF file and choose Next
+() Select Private and choose Next
+() Enter "Apple" for title
+() Choose Organization "Inside ATF"
+() Enter "This is an apple" for the description
+() Choose "Save"
+                    </code></pre>
+				</section>
+				<section>
+					<h2>UAT for Inside ATF</h2>
+					<h3>General Public</h3>
+						<ul>
+							<li>Can access URL to Inside ATF Page?</li>
+							<li>Can access the uploaded document</li>
+						</ul>
+				</section>
+				<section>
+					<h2>Script</h2>
+					<pre><code class="nohighlight" data-trim contenteditable>
+Verify Inside ATF Document is NOT accessible
+
+() Open an incognito window
+() Goto resource-center/inside-atf
+() Verify password required
+() Goto inside-atf/docs/undefined/insideatf-december2017pdf
+() Verify page is NOT visibile
+() Goto inside-atf/docs/undefined/insideatf-december2017pdf/download
+() Verify document does NOT download
+
+                    </code></pre>
+				</section>
+				<section>
+					<h2>UAT for Inside ATF</h2>
+					<h3>Former Agent</h3>
+						<ul>
+							<li>Goto Inside ATF Page</li>
+							<li>Login with password</li>
+							<li>Can view Newletter Listing?</li>
+							<li>Can download uploaded document?</li>
+						</ul>
+
+				</section>
+				<section>
+					<h2>Script</h2>
+					<pre><code class="nohighlight" data-trim contenteditable>
+Verify document secured
+
+() Open an incognito window
+() Goto resource-center/inside-atf
+() Verify password required
+() Goto inside-atf/docs/undefined/apple
+() Verify access is denied
+() Goto resource-center/inside-atf
+() Login with password XXXXXXX
+() Goto inside-atf/docs/undefined/apple
+() Verify the file is accessible
+                    </code></pre>
+				</section>
+				<section>
+					<img src="img/dev-cycle.png">
+					<aside class="notes">
+						<li>Typical cycle</li>
+						<li>Developer vs User parts</li>
+					</aside>
+				</section>
+				<section>
+					<img src="img/dev-cycle-uat.png">
+					<aside class="notes">
+						<li>Part of Developers Ressponsibilty</li>
+						<li>Ticket does not go to Code Review with UAT written. PERIOD.</li>
+						<li>UAT - none required</li>
+						<li>Code Reviewer, responsibility to UAT.</li>
+						<li>Fail code review for UAT issue</li>
+						<li>Mistake - More Scenarios</li>
+					</aside>
+				</section>
+				<section>
+					<h2>Who tests?</h2>
+					<aside class="notes">
+						<li>Developers</li>
+						<li>Content Administrators</li>
+						<li>Business Owners</li>
+						<li>What is they can't</li>
+					</aside>
+				</section>
+				<section>
+					<h2>Benefits of UAT</h2>
+					<p>Beyond quality</p>
+					<ul>
+						<li>Focus on end product early in development</li>
+						<li>Ownership</li>
+						<li>Cross training</li>
+						<li>Documentation</li>
+						<li>Stronger team</li>
+					</ul>
+				</section>
+				<section>
+					<h2>Testing Culture</h2>
+				</section>
+				<section>
+					<h2>Documenting the process</h2>
+					<ul>
+						<li>Keep it simple</li>
+						<li>Use system and prcoesses you have</li>
+						<li>Part of Jira ticket</li>
+					</ul>
+				</section>
+				<section>
+					<img src="img/jira-1.png">
+				</section>
+				<section>
+					<img src="img/jira-2.png">
+				</section>
+				<section>
+					<h1>Behat</h1>
+					<p>A <b>php</b> framework for autotesting your <br><b>business</b> expectations</p>
+					<aside class="notes">
+						<ul>
+							<li>Think of it as automated the tests we looked at above.</li>
+						</ul>
+					</aside>
+				</section>
+				<section>
+					<p>A <b>php</b> framework for autotesting your <br>User Acceptance Testing</p>
+					<p>(kinda)</p>
+				</section>
+				<section>
+					<p>Context-Action-Outcome</p>
+                   <img src="img/gherkin.png">
+					<aside class="notes">
+						<ul>
+							<li>structured around the Context-Action-Outcome pattern</li>
+						</ul>
+					</aside>
+				</section>
+				<section>
+					<img src="img/behat-1.png">
+				</section>
+				<section>
+					<img src="img/behat-2.png">
+				</section>
+				<section>
+					<img src="img/behat-3.png">
+				</section>
+				<section>
+					<img src="img/behat-4.png">
+				</section>
+				<section>
+					<img src="img/behat-5.png">
+				</section>
+				<section>
+					<img src="img/behat-6.png">
+				</section>
+				<section>
+					<img src="img/drupal-ext-drivers.png">
+				</section>
+				<section><pre><code class="nohighlight" data-trim contenteditable>
+					Given I am an anonymous user
+					Given I am not logged in
+					Given I am logged in as a user with the :role role(s)
+					Given I am logged in as a/an :role
+					Given I am logged in as a user with the :role role(s) and I have the following fields:
+					Given I am logged in as :name
+					Given I am logged in as a user with the :permissions permission(s)
+					Then I should see (the text ):text in the :rowText row
+					Then I should not see (the text ):text in the :rowText row
+					Given I click :link in the :rowText row
+					Then I (should )see the :link in the :rowText row
+					Given the cache has been cleared
+					Given I run cron
+					Given I am viewing a/an :type (content )with the title :title
+					Given a/an :type (content )with the title :title
+					Given I am viewing my :type (content )with the title :title
+					</code></pre>
+				</section>
+				<section>
+					<img src="img/behat-7.png">
+				</section>
+				<section>
+					<h2>Inside ATF Behat</h2>
+				</section>
+				<section>
+					<img src="img/behat-script.png">
+				</section>
+				<section>
+				   <h1>Parts to Automate</h1>
+				  <ul>
+					  <li>Critical</li>
+					  <li>Repetitive</li>
+				  </ul>
+				   <p>
+				   	<small></small>
+				   </p>
+				</section>
+				<section>
+					<p>Automation cannot replace domain knowledge, perspective and intuition.</p>
+				</section>
+				<section>
+					<h2>Getting Started Behat Tips</h2>
+					<ul>
+						<li><a>Tutorial at <a href="www.behat.org">behat.org</a>, build your commands.</li>
+						<li>Drupal Behat Extension - runs outside of Drupal</li>
+						<li>Local Build - Test API</li>
+						<li>Think through one-time and all the time scripts.</li>
+					</ul>
+				</section>
+				<section>
+					<h2>Thank you.</h2>
+					<p>Questions</p>
+				</section>
+
+
 			</div>
 		</div>
 
@@ -33,17 +356,18 @@
 		<script src="js/reveal.js"></script>
 
 		<script>
-			// More info about config & dependencies:
-			// - https://github.com/hakimel/reveal.js#configuration
-			// - https://github.com/hakimel/reveal.js#dependencies
-			Reveal.initialize({
-				dependencies: [
-					{ src: 'plugin/markdown/marked.js' },
-					{ src: 'plugin/markdown/markdown.js' },
-					{ src: 'plugin/notes/notes.js', async: true },
-					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
-				]
-			});
+            // More info about config & dependencies:
+            // - https://github.com/hakimel/reveal.js#configuration
+            // - https://github.com/hakimel/reveal.js#dependencies
+            Reveal.initialize({
+                dependencies: [
+                    { src: 'plugin/markdown/marked.js' },
+                    { src: 'plugin/markdown/markdown.js' },
+                    { src: 'plugin/notes/notes.js', async: true },
+                    { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+                ]
+            });
 		</script>
 	</body>
 </html>
+
